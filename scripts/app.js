@@ -29,21 +29,95 @@ var App = (function App() {
 
     switch(button) {
       case 'new-call':
-        alert('Implement call activity');
+        newCall();
       break;
       case 'new-sms':
-        alert('Implement sms activity');
+        newSMS();
       break;
       case 'pick-contact':
-        alert('Implement pick contact');
+        pickContact();
       break;
       case 'pick-photo':
-        alert('Implement pick photo');
+        pickPhoto();
       break;
       default:
         alert('No action');
     }
   }
+
+  // New call
+  function newCall() {
+    var activity = new MozActivity({
+      name: 'dial',
+      data: {
+        type: 'webtelephony/number',
+        number: '12345678'
+      }
+    });
+
+    activity.onsuccess = function() {
+      // We don't do anything
+    };
+
+    activity.onerror = function() {
+      alert('Unable to call');
+    }
+  };
+
+  // New SMS
+  function newSMS() {
+    var activity = new MozActivity({
+      name: 'new',
+      data: {
+        type: 'websms/sms',
+        number: '12345678'
+      }
+    });
+
+    activity.onsuccess = function() {
+      // We don't do anything
+    };
+
+    activity.onerror = function() {
+      alert('Unable to send SMS');
+    }
+  };
+
+  // Pick contact
+  function pickContact() {
+    var activity = new MozActivity({
+      name: 'pick',
+      data: {
+        type: 'webcontacts/tel'
+      }
+    });
+
+    activity.onsuccess = function() {
+      drawContact(this.result);
+    };
+
+    activity.onerror = function() {
+      alert('Could not get a contact');
+    };
+  };
+
+  // Pick photo
+  function pickPhoto() {
+    var activity = new MozActivity({
+      name: 'pick',
+      data: {
+        type: 'image/png'
+      }
+    });
+
+    activity.onsuccess = function() {
+      drawImage(this.result.blob);
+    };
+
+    activity.onerror = function() {
+      alert('Could not get an image');
+    };
+  };
 
   // Utility functions
 
