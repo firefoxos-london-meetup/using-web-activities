@@ -1,0 +1,22 @@
+Firefox OS London Meetup
+========================
+
+
+Using Web Activities
+--------------------
+
+In this repo you could find the code that we follow in the Firefox OS London meetup group around activities.
+
+This first example will show you how to use other activities defined in the system.
+
+Installation
+--------------
+
+For the final result just download the repo
+```sh
+git clone https://github.com/firefoxos-london-meetup/using-web-activities
+```
+
+If you prefer go step by step, there is a release with the skeleton of the app. You can download it from here:
+
+https://github.com/firefoxos-london-meetup/using-web-activities/releases
