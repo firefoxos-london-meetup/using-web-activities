@@ -50,7 +50,48 @@ var App = (function App() {
   // Given a mozContact object, show it contents
   // in our app
   function drawContact(contact) {
+    if (!contact) {
+      return;
+    }
+    // Clean any current content
+    container.innerHTML = '';
+    var section = document.createElement('section');
+    section.dataset.type = 'list';
+    container.appendChild(section);
 
+    // Create the structure for appending the information;
+    var ul = document.createElement('ul');
+    var li = document.createElement('li');
+
+    // Check if the contact has photo and add it if so
+    if (contact.photo && contact.photo.length > 0) {
+      var photo = document.createElement('aside');
+      photo.classList.add('pack-end');
+      var img = document.createElement('img');
+      photo.appendChild(img);
+      img.src = URL.createObjectURL(contact.photo[0]);
+      img.onload = function () {
+        URL.revokeObjectURL(this.src);
+      };
+      li.appendChild(photo);
+    }
+
+    // Add the name, if no, add 'no name'
+    var name = document.createElement('p');
+    name.textContent = contact.name && contact.name.length > 0 ?
+     contact.name[0] : 'no name';
+    li.appendChild(name);
+
+    // If we have phone number add it as well
+    if (contact.tel && contact.tel.length > 0) {
+      var phone = document.createElement('p');
+      phone.textContent = contact.tel[0].value;
+      li.appendChild(phone);
+    }
+
+    ul.appendChild(li);
+
+    section.appendChild(ul);
   }
 
   // Given an image in blob format, render
@@ -59,10 +100,13 @@ var App = (function App() {
   //   removing and creating always the image
   //   is not the effective way.
   function drawImage(blob) {
+    if (!blob) {
+      return;
+    }
     // Clean any current content
     container.innerHTML = '';
 
-    // Build an imagen
+    // Build an image
     var img = document.createElement('img');
     img.src = URL.createObjectURL(blob);
     img.onload = function() {
