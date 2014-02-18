@@ -5,7 +5,8 @@ var App = (function App() {
   var newCallButton,
       newSmsButton,
       pickContactButton,
-      pickPhotoButton;
+      pickPhotoButton,
+      container;
 
   function init () {
     // Get the buttons and add a event listener for them
@@ -13,6 +14,8 @@ var App = (function App() {
     newSmsButton = document.getElementById('new-sms');
     pickContactButton = document.getElementById('pick-contact');
     pickPhotoButton = document.getElementById('pick-photo');
+
+    container = document.querySelector('.container');
 
     newCallButton.addEventListener('click', handleClick);
     newSmsButton.addEventListener('click', handleClick);
@@ -52,8 +55,22 @@ var App = (function App() {
 
   // Given an image in blob format, render
   // it on our app
+  // Warning: this is for testing purposes,
+  //   removing and creating always the image
+  //   is not the effective way.
   function drawImage(blob) {
+    // Clean any current content
+    container.innerHTML = '';
 
+    // Build an imagen
+    var img = document.createElement('img');
+    img.src = URL.createObjectURL(blob);
+    img.onload = function() {
+      URL.revokeObjectURL(this.src);
+    };
+    img.height = 150;
+    img.width = 150;
+    container.appendChild(img);
   }
 
   return {
